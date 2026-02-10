@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "block-cancel-fix",
+  "version-string": "1.0.0",
+  "dependencies": [
+    "fmt",
+    "rapidcsv",
+    "spdlog",
+    "xbyak",
+    "directxmath",
+    "directxtk",
+    "nlohmann-json",
+	"clib-util"
+  ],
+  "builtin-baseline": "afcc8a3cdfb9bec4e62dc32b23f976e2c56b046f"
+}
