@@ -14,6 +14,17 @@ Built with [CommonLibSSE-NG](https://github.com/alandtse/CommonLibVR).
 		* Name: `VCPKG_ROOT`
 		* Value: path to your `vcpkg` folder
 
+# User Requirements
+* [Address Library for SKSE](https://www.nexusmods.com/skyrimspecialedition/mods/32444)
+	* Needed for SSE
+* [VR Address Library for SKSEVR](https://www.nexusmods.com/skyrimspecialedition/mods/58101)
+	* Needed for VR
+
+# Register Visual Studio as a Generator
+* Open `x64 Native Tools Command Prompt`
+* Run `cmake`
+* Close the cmd window
+
 # Building
 ```
 git clone https://github.com/VanCZ1/Block-Cancel-Fix.git
@@ -25,15 +36,3 @@ git submodule update --init --recursive
 cmake --preset release-msvc
 cmake --build --preset release-msvc
 ```
-
-# License
-[MIT](LICENSE)
-
-# Credits
-Thanks to SKSE team and the open source community.  
-Some of the files in the project references the following authors:
-* [powerof3](https://github.com/powerof3)
-* [Monitor221hz](https://github.com/Monitor221hz)
-* [QTR-Modding](https://github.com/QTR-Modding)
-* [Elzart](https://github.com/elzart)
-* [alexsylex](https://github.com/alexsylex)

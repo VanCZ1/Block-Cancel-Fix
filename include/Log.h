@@ -1,23 +1,25 @@
 #pragma once
 
-inline void SetupLog() {
-    auto logsFolder = SKSE::log::log_directory();
-    if (!logsFolder) {
+inline void SetupLog()
+{
+	auto logFolder = SKSE::log::log_directory();
+	if (!logFolder) {
 		SKSE::stl::report_and_fail("Failed to find standard logging directory."sv);
 	}
-	
-    auto pluginName = SKSE::PluginDeclaration::GetSingleton()->GetName();
-    auto logFilePath = *logsFolder / std::format("{}.log", pluginName);
-    auto fileLoggerPtr = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logFilePath.string(), true);
-    auto loggerPtr = std::make_shared<spdlog::logger>("log", std::move(fileLoggerPtr));
-	
-    spdlog::set_default_logger(std::move(loggerPtr));
+
+	auto pluginName = SKSE::PluginDeclaration::GetSingleton()->GetName();
+	auto logPath = *logFolder / std::format("{}.log", pluginName);
+	auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logPath.string(), true);
+	auto log = std::make_shared<spdlog::logger>("log", std::move(sink));
+
+	spdlog::set_default_logger(std::move(log));
+	spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%l] %v");
 
 #ifdef NDEBUG
 	spdlog::set_level(spdlog::level::info);
 	spdlog::flush_on(spdlog::level::info);
 #else
-	spdlog::set_level(spdlog::level::debug);
-	spdlog::flush_on(spdlog::level::debug);
+	spdlog::set_level(spdlog::level::trace);
+	spdlog::flush_on(spdlog::level::trace);
 #endif
 }

@@ -3,13 +3,18 @@
 #include "Manager.h"
 
 SKSEPluginInfo(
-	.Version = { 1, 0, 0, 0 },
-	.Name = "BlockCancelFix"sv,
+	.Version = REL::Version{ Version::MAJOR, Version::MINOR, Version::PATCH },
+	.Name = Version::PROJECT,
 	.Author = "VanCZ1"sv,
 	.SupportEmail = ""sv,
 	.StructCompatibility = SKSE::StructCompatibility::Independent,
 	.RuntimeCompatibility = SKSE::VersionIndependence::AddressLibrary
 )
+
+void Load()
+{
+	Hooks::Install();
+}
 
 void MessageHandler(SKSE::MessagingInterface::Message* a_msg)
 {
@@ -18,10 +23,9 @@ void MessageHandler(SKSE::MessagingInterface::Message* a_msg)
 		break;
 	case SKSE::MessagingInterface::kPostLoad:
 		break;
+	case SKSE::MessagingInterface::kPostPostLoad:
+		break;
 	case SKSE::MessagingInterface::kPreLoadGame:
-
-		Manager::PlayerState::GetSingleton()->isBlockCanceling = false;
-
 		break;
 	case SKSE::MessagingInterface::kPostLoadGame:
         break;
@@ -30,24 +34,21 @@ void MessageHandler(SKSE::MessagingInterface::Message* a_msg)
 	}
 }
 
-SKSEPluginLoad(const SKSE::LoadInterface *skse) {
-    SKSE::Init(skse);
-	
+SKSEPluginLoad(const SKSE::LoadInterface* a_skse)
+{
+	SKSE::Init(a_skse);
+
 	SetupLog();
+	const auto plugin = SKSE::PluginDeclaration::GetSingleton();
+	logger::info("{} v{}", plugin->GetName(), plugin->GetVersion());
+	const auto gameVersion = a_skse->RuntimeVersion().string();
+	logger::info("Game version: {}", gameVersion);
 
-	auto plugin = SKSE::PluginDeclaration::GetSingleton();
-	SKSE::log::info("{} v{}", plugin->GetName(), plugin->GetVersion());
-	auto gameVersion = skse->RuntimeVersion().string();
-	SKSE::log::info("Game version: {}", gameVersion);
-
-	Hooks::Install();
-
-    auto messaging = SKSE::GetMessagingInterface();
+	const auto messaging = SKSE::GetMessagingInterface();
 	if (!messaging->RegisterListener("SKSE", MessageHandler)) {
 		return false;
 	}
+	Load();
 
-	SKSE::log::info("Plugin loaded successfully.");
-
-    return true;
+	return true;
 }

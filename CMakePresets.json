@@ -47,7 +47,7 @@
       "name": "msvc",
       "hidden": true,
       "environment": {
-        "PROJECT_COMPILER": "/permissive- /Zc:preprocessor /EHsc /MP /W4 /wd4200 /sdl /Zi /external:W0 $penv{CXXFLAGS}",
+        "PROJECT_COMPILER": "/permissive- /Zc:preprocessor /EHsc /MP /W4 /wd4200 /sdl /Zi /utf-8 /external:W0 $penv{CXXFLAGS}",
         "PROJECT_COMPILER_RELEASE": "/O2 /DNDEBUG /Zc:inline /JMC-"
       },
       "cacheVariables": {

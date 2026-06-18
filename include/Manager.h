@@ -2,12 +2,6 @@
 
 namespace Manager
 {
-	class PlayerState : public REX::Singleton<PlayerState>
-	{
-	public:
-		std::atomic<bool> isBlockCanceling{ false };
-	};
-
 	class PlayerAnimationHandler : 
 		public REX::Singleton<PlayerAnimationHandler>,
 		public RE::BSTEventSink<RE::BSAnimationGraphEvent>
@@ -18,5 +12,11 @@ namespace Manager
 
 	private:
 		RE::BSEventNotifyControl ProcessEvent(const RE::BSAnimationGraphEvent* a_event, RE::BSTEventSource<RE::BSAnimationGraphEvent>*) override;
+	};
+
+	class PlayerAnimationState : public REX::Singleton<PlayerAnimationState>
+	{
+	public:
+		std::atomic<bool> isBlockCanceling{ false };
 	};
 }

@@ -8,14 +8,13 @@ namespace Manager
 			return;
 		}
 
-		auto player = RE::PlayerCharacter::GetSingleton();
+		const auto player = RE::PlayerCharacter::GetSingleton();
 		if (!player) {
 			return;
 		}
 
 		player->RemoveAnimationGraphEventSink(this);
-		auto isSuccess = player->AddAnimationGraphEventSink(this);
-		if (isSuccess) {
+		if (player->AddAnimationGraphEventSink(this)) {
 			isRegistered = true;
 		}
 	}
@@ -26,25 +25,24 @@ namespace Manager
 			return RE::BSEventNotifyControl::kContinue;
 		}
 
-		auto player = RE::PlayerCharacter::GetSingleton();
+		const auto player = RE::PlayerCharacter::GetSingleton();
 		if (!player) {
 			return RE::BSEventNotifyControl::kContinue;
 		}
 
-		auto playerState = PlayerState::GetSingleton();
-		const std::string_view tagStr = a_event->tag.c_str();
-		bool isBlockStart = (tagStr == "blockStartOut");
-		bool isAttackStop = (tagStr == "attackStop");
+		auto state = PlayerAnimationState::GetSingleton();
+		bool isBlockStart = (a_event->tag == "blockStartOut");
+		bool isAttackStop = (a_event->tag == "attackStop");
 
 		if (isBlockStart) {
 			bool isAttacking = false;
 			player->GetGraphVariableBool("IsAttacking", isAttacking);
 			if (isAttacking) {
-				playerState->isBlockCanceling = true;
+				state->isBlockCanceling = true;
 			}
 		} else if (isAttackStop) {
-			if (playerState->isBlockCanceling) {
-				playerState->isBlockCanceling = false;
+			if (state->isBlockCanceling) {
+				state->isBlockCanceling = false;
 			}
 		}
 
