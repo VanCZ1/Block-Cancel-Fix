@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 set(NAME "BlockCancelFix")
-set(VERSION 1.1.0)
+set(VERSION 1.1.1)
 set(LICENSE "MIT License")
 
 # -------------------------------------------------- #
