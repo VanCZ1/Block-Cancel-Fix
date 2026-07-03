@@ -44,8 +44,7 @@ namespace Hooks
 	{
 		auto result = originalFunction(a_this, a_deltaTime, a_translation, a_rotation, a_result);
 
-		bool isPlayer = a_this && a_this->IsPlayerRef();
-		if (isPlayer) {
+		if (a_this && a_this->IsPlayerRef()) {
 			auto handler = Manager::PlayerAnimationHandler::GetSingleton();
 			if (!handler->isRegistered) {
 				handler->Register();
